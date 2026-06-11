@@ -134,8 +134,8 @@ const AchievementsSection = () => {
     >
       <FadeIn y={40}>
         <h2
-          className="text-center font-black uppercase text-[#D7E2EA] mb-16 sm:mb-20 md:mb-28 leading-none"
-          style={{ fontSize: 'clamp(3rem, 12vw, 160px)' }}
+          className="text-center font-black uppercase text-[#D7E2EA] mb-16 sm:mb-20 md:mb-28 leading-none w-full overflow-hidden"
+          style={{ fontSize: 'clamp(2rem, 10vw, 160px)' }}
         >
           Achievements
         </h2>

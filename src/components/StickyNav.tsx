@@ -16,17 +16,20 @@ const NAV_LINKS = [
 const LIGHT_BG_SECTIONS = ['services', 'experience'];
 
 const StickyNav = () => {
-  const [visible, setVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const [pastHero, setPastHero] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const [menuOpen, setMenuOpen] = useState(false);
   const [resumeExpanded, setResumeExpanded] = useState(false);
 
+  // Track whether we've scrolled past the hero
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8);
+    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.8);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Track active section
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.replace('#', ''));
     const observer = new IntersectionObserver(
@@ -44,25 +47,39 @@ const StickyNav = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Close menu on scroll
   useEffect(() => {
     const onScroll = () => { setMenuOpen(false); setResumeExpanded(false); };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // On hero: always show (white lines, left side)
+  // Post-hero: show after scrolling, adaptive color, right side
+  const isHero = !pastHero;
   const isLight = LIGHT_BG_SECTIONS.includes(activeSection);
-  const lineColor   = isLight ? 'bg-[#0C0C0C]'             : 'bg-[#D7E2EA]';
-  const menuBg      = isLight ? 'bg-white/85 border-black/10'  : 'bg-[#0C0C0C]/85 border-white/10';
-  const itemText    = isLight ? 'text-[#0C0C0C]/70 hover:text-[#0C0C0C]' : 'text-[#D7E2EA]/60 hover:text-[#D7E2EA]';
-  const divider     = isLight ? 'border-black/8'            : 'border-white/8';
-  const hoverBg     = isLight ? 'hover:bg-black/5'          : 'hover:bg-white/8';
-  const resumeLabel = isLight ? 'text-[#0C0C0C]'            : 'text-[#D7E2EA]';
+
+  const lineColor = isHero || !isLight ? 'bg-[#D7E2EA]' : 'bg-[#0C0C0C]';
+  const menuBg    = isHero || !isLight
+    ? 'bg-[#0C0C0C]/85 border-white/10'
+    : 'bg-white/85 border-black/10';
+  const itemText  = isHero || !isLight
+    ? 'text-[#D7E2EA]/60 hover:text-[#D7E2EA]'
+    : 'text-[#0C0C0C]/70 hover:text-[#0C0C0C]';
+  const divider   = isHero || !isLight ? 'border-white/8'  : 'border-black/8';
+  const hoverBg   = isHero || !isLight ? 'hover:bg-white/8' : 'hover:bg-black/5';
+  const resumeLabel = isHero || !isLight ? 'text-[#D7E2EA]' : 'text-[#0C0C0C]';
+
+  // Position: left on hero, right after hero
+  const position = isHero ? 'left-5' : 'right-5';
+  // Dropdown opens to the right on hero, to the left on right-side
+  const dropdownAlign = isHero ? 'left-0' : 'right-0';
 
   return (
     <>
       {/* ── Desktop pill nav — hidden on mobile ── */}
       <AnimatePresence>
-        {visible && (
+        {pastHero && (
           <motion.nav
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -104,93 +121,82 @@ const StickyNav = () => {
         )}
       </AnimatePresence>
 
-      {/* ── Mobile floating hamburger — hidden on sm+ ── */}
-      <AnimatePresence>
-        {visible && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="sm:hidden fixed top-5 right-5 z-50"
-          >
-            {/* Dropdown */}
-            <AnimatePresence>
-              {menuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className={`absolute top-12 right-0 w-52 rounded-2xl border backdrop-blur-2xl overflow-hidden ${menuBg}`}
-                >
-                  {/* Nav links */}
-                  {NAV_LINKS.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
-                      className={`block px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-b ${divider} ${itemText} ${hoverBg}`}
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-
-                  {/* Resume — expands inline */}
-                  <button
-                    onClick={() => setResumeExpanded((v) => !v)}
-                    className={`w-full flex items-center justify-between px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors ${resumeLabel} ${hoverBg}`}
-                  >
-                    Resume
-                    <ChevronDown
-                      size={13}
-                      className={`transition-transform duration-200 ${resumeExpanded ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {resumeExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.18 }}
-                        className="overflow-hidden"
-                      >
-                        <Link
-                          to="/resume/ml"
-                          onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
-                          className={`block pl-8 pr-5 py-3 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-t ${divider} ${itemText} ${hoverBg}`}
-                        >
-                          Machine Learning
-                        </Link>
-                        <Link
-                          to="/resume/web"
-                          onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
-                          className={`block pl-8 pr-5 py-3 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-t ${divider} ${itemText} ${hoverBg}`}
-                        >
-                          Web Development
-                        </Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Hamburger button */}
-            <button
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Toggle navigation"
-              className="flex flex-col justify-center gap-[5px] w-10 h-10 items-center"
+      {/* ── Mobile floating hamburger — always visible on mobile ── */}
+      <div className={`sm:hidden fixed top-5 z-50 ${position}`}>
+        {/* Dropdown */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className={`absolute top-12 ${dropdownAlign} w-52 rounded-2xl border backdrop-blur-2xl overflow-hidden ${menuBg}`}
             >
-              <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'w-5 rotate-45 translate-y-[7px]' : 'w-5'}`} />
-              <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'opacity-0 w-5' : 'w-4'}`} />
-              <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'w-5 -rotate-45 -translate-y-[7px]' : 'w-5'}`} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
+                  className={`block px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-b ${divider} ${itemText} ${hoverBg}`}
+                >
+                  {link.label}
+                </a>
+              ))}
+
+              {/* Resume — expands inline */}
+              <button
+                onClick={() => setResumeExpanded((v) => !v)}
+                className={`w-full flex items-center justify-between px-5 py-3.5 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors ${resumeLabel} ${hoverBg}`}
+              >
+                Resume
+                <ChevronDown
+                  size={13}
+                  className={`transition-transform duration-200 ${resumeExpanded ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              <AnimatePresence>
+                {resumeExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.18 }}
+                    className="overflow-hidden"
+                  >
+                    <Link
+                      to="/resume/ml"
+                      onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
+                      className={`block pl-8 pr-5 py-3 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-t ${divider} ${itemText} ${hoverBg}`}
+                    >
+                      Machine Learning
+                    </Link>
+                    <Link
+                      to="/resume/web"
+                      onClick={() => { setMenuOpen(false); setResumeExpanded(false); }}
+                      className={`block pl-8 pr-5 py-3 text-[11px] font-medium uppercase tracking-[0.15em] transition-colors border-t ${divider} ${itemText} ${hoverBg}`}
+                    >
+                      Web Development
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Hamburger button */}
+        <button
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label="Toggle navigation"
+          className="flex flex-col justify-center gap-[5px] w-10 h-10 items-center"
+        >
+          <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'w-5 rotate-45 translate-y-[7px]' : 'w-5'}`} />
+          <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'opacity-0 w-5' : 'w-4'}`} />
+          <span className={`block h-[2px] rounded-full transition-all duration-300 ${lineColor} ${menuOpen ? 'w-5 -rotate-45 -translate-y-[7px]' : 'w-5'}`} />
+        </button>
+      </div>
     </>
   );
 };
