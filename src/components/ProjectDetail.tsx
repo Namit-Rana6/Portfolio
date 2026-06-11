@@ -99,32 +99,32 @@ const ProjectDetail = () => {
             </h1>
           )}
 
-          <div className="flex flex-wrap gap-3 sm:gap-4 items-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 items-center">
               <span className="text-[#D7E2EA]/60 font-light text-sm uppercase tracking-wider">
                 {project.year}
               </span>
               {project.status === 'Honorable Mention' && (
-                <span className="inline-block px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-semibold tracking-wide border border-amber-500/40 whitespace-nowrap">
+                <span className="inline-block px-2.5 sm:px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-[10px] sm:text-xs font-semibold tracking-wide border border-amber-500/40">
                   🏆 Honorable Mention - Google &amp; Kaggle Tunix Hackathon
                 </span>
               )}
               {project.status === '1st Place - Vihaan 8.0 Hackathon (IEEE DTU)' && (
-                <span className="inline-block px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-xs font-semibold tracking-wide border border-yellow-500/40 whitespace-nowrap">
+                <span className="inline-block px-2.5 sm:px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-[10px] sm:text-xs font-semibold tracking-wide border border-yellow-500/40">
                   🥇 1st Place - Vihaan 8.0 Hackathon (IEEE DTU)
                 </span>
               )}
               {project.status?.includes('Best Paper Award') && (
-                <span className="inline-block px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-xs font-semibold tracking-wide border border-yellow-500/40 whitespace-nowrap">
+                <span className="inline-block px-2.5 sm:px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-[10px] sm:text-xs font-semibold tracking-wide border border-yellow-500/40">
                   🏆 Best Paper Award - ICIDSSD '26 · Jamia Hamdard
                 </span>
               )}
               {project.status?.includes('3rd Position') && (
-                <span className="inline-block px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-xs font-semibold tracking-wide border border-yellow-500/40 whitespace-nowrap">
+                <span className="inline-block px-2.5 sm:px-3 py-1 rounded-lg bg-yellow-500/20 text-yellow-300 text-[10px] sm:text-xs font-semibold tracking-wide border border-yellow-500/40">
                   🏆 3rd Position - Gujarat Hackathon
                 </span>
               )}
               {project.status !== 'Honorable Mention' && project.status !== '1st Place - Vihaan 8.0 Hackathon (IEEE DTU)' && !project.status?.includes('Best Paper Award') && !project.status?.includes('3rd Position') && (
-                <span className="inline-block px-3 py-1 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] text-xs font-medium uppercase tracking-wider border border-[#D7E2EA]/20">
+                <span className="inline-block px-2.5 sm:px-3 py-1 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] text-[10px] sm:text-xs font-medium uppercase tracking-wider border border-[#D7E2EA]/20">
                   {project.status}
                 </span>
               )}
@@ -503,16 +503,16 @@ const ProjectDetail = () => {
         </motion.section>
 
         {/* CTA */}
-        <motion.div variants={itemVariants} className="flex flex-wrap gap-4 pt-12 border-t border-[#D7E2EA]/10">
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-12 border-t border-[#D7E2EA]/10">
           {project.liveUrl && project.liveUrl !== '#' && (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-[#D7E2EA] text-[#0C0C0C] font-medium uppercase tracking-wider hover:bg-white transition-all group"
+              className="inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg bg-[#D7E2EA] text-[#0C0C0C] font-medium uppercase tracking-wider hover:bg-white transition-all group text-sm"
             >
               {project.buttonLabel || 'View Live'}
-              <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
           )}
           {project.githubUrl && (
@@ -520,15 +520,15 @@ const ProjectDetail = () => {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] font-medium uppercase tracking-wider border border-[#D7E2EA]/20 hover:bg-[#D7E2EA]/20 hover:border-[#D7E2EA]/50 transition-all group"
+              className="inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] font-medium uppercase tracking-wider border border-[#D7E2EA]/20 hover:bg-[#D7E2EA]/20 hover:border-[#D7E2EA]/50 transition-all group text-sm"
             >
               GitHub
-              <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
           )}
           <button
             onClick={() => navigate('/#projects')}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] font-medium uppercase tracking-wider border border-[#D7E2EA]/20 hover:bg-[#D7E2EA]/20 hover:border-[#D7E2EA]/50 transition-all"
+            className="inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg bg-[#D7E2EA]/10 text-[#D7E2EA] font-medium uppercase tracking-wider border border-[#D7E2EA]/20 hover:bg-[#D7E2EA]/20 hover:border-[#D7E2EA]/50 transition-all text-sm"
           >
             Back to Projects
           </button>

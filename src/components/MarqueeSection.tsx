@@ -41,12 +41,12 @@ const Row = ({ images, offset, direction }: RowProps) => {
     direction === 'right' ? offset - 200 : -(offset - 200);
 
   return (
-    <div className="flex gap-3" style={{ willChange: 'transform', transform: `translateX(${translate}px)` }}>
+    <div className="flex gap-2 sm:gap-3" style={{ willChange: 'transform', transform: `translateX(${translate}px)` }}>
       {tripled(images).map((src, i) => (
         <div
           key={i}
-          className="shrink-0 overflow-hidden rounded-2xl"
-          style={{ width: 420, height: 270 }}
+          className="shrink-0 overflow-hidden rounded-xl sm:rounded-2xl"
+          style={{ width: 'clamp(200px, 42vw, 420px)', height: 'clamp(130px, 27vw, 270px)' }}
         >
           <img
             src={src}

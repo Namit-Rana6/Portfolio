@@ -43,7 +43,7 @@ const ResumeViewer = () => {
       />
 
       {/* Header */}
-      <div className="relative z-10 flex items-center justify-between px-5 sm:px-8 md:px-12 pt-7 pb-6 border-b border-[#D7E2EA]/8">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 md:px-12 pt-5 pb-4 border-b border-[#D7E2EA]/8">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-[#D7E2EA]/60 hover:text-[#D7E2EA] transition-colors group"
@@ -52,7 +52,7 @@ const ResumeViewer = () => {
           <span className="text-xs font-medium uppercase tracking-[0.2em]">Back</span>
         </button>
 
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#D7E2EA]/40">
+        <p className="hidden sm:block text-xs font-medium uppercase tracking-[0.3em] text-[#D7E2EA]/40">
           Resume · Namit Rana
         </p>
 
@@ -62,7 +62,7 @@ const ResumeViewer = () => {
             <button
               key={tab.label}
               onClick={() => setActive(i)}
-              className={`relative px-4 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-[0.15em] transition-all duration-200 ${
+              className={`relative px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.1em] sm:tracking-[0.15em] transition-all duration-200 ${
                 active === i ? 'text-[#0C0C0C]' : 'text-[#D7E2EA]/50 hover:text-[#D7E2EA]'
               }`}
             >
@@ -91,7 +91,7 @@ const ResumeViewer = () => {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
             className="flex-1 rounded-[20px] overflow-hidden border border-[#D7E2EA]/10 bg-[#141418]"
-            style={{ minHeight: 500, height: 'calc(100vh - 220px)' }}
+            style={{ minHeight: 400, height: 'calc(100svh - 200px)' }}
           >
             <iframe
               src={`${TABS[active].file}#toolbar=0&navpanes=0&scrollbar=1`}

@@ -125,18 +125,18 @@ const AboutSection = () => {
 
         {/* Right - photo with orbital rings */}
         <FadeIn delay={0.2} y={30}>
-          <div className="relative flex items-center justify-center" style={{ height: 420 }}>
+          <div className="relative flex items-center justify-center" style={{ height: 'clamp(280px, 55vw, 420px)' }}>
             {/* Outer ring - dashed, slow rotate */}
             <div
               className="absolute rounded-full border border-dashed border-[#D7E2EA]/15"
-              style={{ width: 400, height: 400, animation: 'spinSlow 18s linear infinite' }}
+              style={{ width: 'clamp(240px, 55vw, 400px)', height: 'clamp(240px, 55vw, 400px)', animation: 'spinSlow 18s linear infinite' }}
             >
               <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#D7E2EA]/40" />
             </div>
             {/* Middle ring */}
             <div
               className="absolute rounded-full border border-[#D7E2EA]/10"
-              style={{ width: 330, height: 330, animation: 'spinSlow 12s linear infinite reverse' }}
+              style={{ width: 'clamp(200px, 45vw, 330px)', height: 'clamp(200px, 45vw, 330px)', animation: 'spinSlow 12s linear infinite reverse' }}
             >
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#D7E2EA]/30" />
               <span className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[#D7E2EA]/20" />
@@ -144,10 +144,10 @@ const AboutSection = () => {
             {/* Inner glow */}
             <div
               className="absolute rounded-full"
-              style={{ width: 260, height: 260, background: 'radial-gradient(circle, rgba(215,226,234,0.06) 0%, transparent 70%)' }}
+              style={{ width: 'clamp(160px, 35vw, 260px)', height: 'clamp(160px, 35vw, 260px)', background: 'radial-gradient(circle, rgba(215,226,234,0.06) 0%, transparent 70%)' }}
             />
             {/* Photo */}
-            <div className="relative rounded-full overflow-hidden border-2 border-[#D7E2EA]/20 shrink-0" style={{ width: 240, height: 240 }}>
+            <div className="relative rounded-full overflow-hidden border-2 border-[#D7E2EA]/20 shrink-0" style={{ width: 'clamp(140px, 32vw, 240px)', height: 'clamp(140px, 32vw, 240px)' }}>
               <img
                 src="/Namit-AboutME.jpeg"
                 alt="Namit Rana"

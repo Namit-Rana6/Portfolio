@@ -161,21 +161,21 @@ const AchievementsSection = () => {
             {OTHER_RECOGNITIONS.map((item, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between gap-4 py-4 group"
+                className="flex items-start sm:items-center justify-between gap-2 sm:gap-4 py-3 sm:py-4 group"
               >
-                <div className="flex items-center gap-4 sm:gap-6 min-w-0">
-                  <span className="shrink-0 text-xs uppercase tracking-widest text-[#D7E2EA]/40 font-medium w-28 sm:w-36">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 md:gap-6 min-w-0">
+                  <span className="shrink-0 text-xs uppercase tracking-widest text-[#D7E2EA]/40 font-medium sm:w-28 md:w-36">
                     {item.position}
                   </span>
-                  <span className="font-medium text-[#D7E2EA]/70 text-sm sm:text-base truncate group-hover:text-[#D7E2EA] transition-colors">
+                  <span className="font-medium text-[#D7E2EA]/70 text-sm sm:text-base group-hover:text-[#D7E2EA] transition-colors">
                     {item.event}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-6 shrink-0">
-                  <span className="hidden sm:block text-xs uppercase tracking-widest text-[#D7E2EA]/30">
+                <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                  <span className="hidden md:block text-xs uppercase tracking-widest text-[#D7E2EA]/30">
                     {item.organiser}
                   </span>
-                  <span className="text-xs uppercase tracking-widest text-[#D7E2EA]/30">
+                  <span className="text-xs uppercase tracking-widest text-[#D7E2EA]/30 whitespace-nowrap">
                     {item.year}
                   </span>
                 </div>

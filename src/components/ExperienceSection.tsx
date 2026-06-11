@@ -80,14 +80,14 @@ const ExperienceCard = ({ experience, index }: { experience: Experience; index: 
     >
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 md:gap-12">
         {/* Left side: Period & Number */}
-        <div className="shrink-0 flex flex-row sm:flex-col gap-3 sm:gap-2">
+        <div className="shrink-0 flex flex-row sm:flex-col gap-3 sm:gap-2 items-start">
           <div
             className="font-black text-[#0C0C0C] leading-none"
-            style={{ fontSize: 'clamp(2rem, 8vw, 120px)' }}
+            style={{ fontSize: 'clamp(2rem, 6vw, 120px)' }}
           >
             {experience.number}
           </div>
-          <div className="inline-block px-3 py-1 rounded-full bg-[#0C0C0C] text-white text-xs sm:text-sm font-medium uppercase tracking-wider">
+          <div className="inline-block px-2.5 py-1 rounded-full bg-[#0C0C0C] text-white text-[10px] sm:text-sm font-medium uppercase tracking-wider whitespace-nowrap">
             {experience.period}
           </div>
         </div>

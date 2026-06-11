@@ -59,7 +59,7 @@ const ServicesSection = () => {
         {SERVICES.map((service, i) => (
           <FadeIn key={service.number} delay={i * 0.1} y={30}>
             <div
-              className="flex flex-row items-start gap-6 sm:gap-10 md:gap-14 py-8 sm:py-10 md:py-12"
+              className="flex flex-row items-start gap-4 sm:gap-8 md:gap-14 py-7 sm:py-10 md:py-12"
               style={{
                 borderTop: '1px solid rgba(12, 12, 12, 0.15)',
                 ...(i === SERVICES.length - 1
@@ -69,7 +69,7 @@ const ServicesSection = () => {
             >
               <div
                 className="shrink-0 font-black text-[#0C0C0C] leading-none"
-                style={{ fontSize: 'clamp(3rem, 10vw, 140px)' }}
+                style={{ fontSize: 'clamp(2rem, 8vw, 140px)' }}
               >
                 {service.number}
               </div>

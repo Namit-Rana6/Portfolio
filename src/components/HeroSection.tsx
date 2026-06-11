@@ -13,16 +13,21 @@ const NAV_LINKS = [
 
 const HeroNav = memo(() => {
   const [resumeDropdown, setResumeDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setResumeDropdown(false);
+    const handleScroll = () => {
+      setResumeDropdown(false);
+      setMobileMenuOpen(false);
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8">
-      <ul className="flex items-center gap-5 sm:gap-8 md:gap-12">
+    <div className="flex items-center justify-between px-5 sm:px-6 md:px-10 pt-5 sm:pt-6 md:pt-8">
+      {/* Desktop nav */}
+      <ul className="hidden sm:flex items-center gap-5 sm:gap-6 md:gap-10">
         {NAV_LINKS.map((link) => (
           <li key={link.label}>
             <a
@@ -64,12 +69,53 @@ const HeroNav = memo(() => {
         </li>
       </ul>
 
+      {/* Mobile hamburger */}
+      <button
+        onClick={() => setMobileMenuOpen((v) => !v)}
+        aria-label="Toggle menu"
+        className="sm:hidden flex flex-col gap-1.5 p-1"
+      >
+        <span className={`block h-0.5 w-6 bg-white/80 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`block h-0.5 w-6 bg-white/80 transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+        <span className={`block h-0.5 w-6 bg-white/80 transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+      </button>
+
       <a
         href="#contact"
-        className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 sm:px-5 sm:py-2.5 text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md transition hover:bg-white/20 hover:scale-[1.03]"
+        className="hidden sm:inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 sm:px-5 sm:py-2.5 text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-md transition hover:bg-white/20 hover:scale-[1.03]"
       >
         Email me
       </a>
+
+      {/* Mobile menu drawer */}
+      {mobileMenuOpen && (
+        <div className="absolute top-16 left-0 right-0 mx-4 rounded-2xl bg-white/5 backdrop-blur-2xl border border-white/15 z-50 overflow-hidden">
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-6 py-4 text-xs font-medium uppercase tracking-[0.2em] text-white/70 hover:text-white hover:bg-white/10 transition border-b border-white/10"
+            >
+              {link.label}
+            </a>
+          ))}
+          <Link
+            to="/resume/ml"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-6 py-4 text-xs font-medium uppercase tracking-[0.2em] text-white/70 hover:text-white hover:bg-white/10 transition border-b border-white/10"
+          >
+            Resume — ML
+          </Link>
+          <Link
+            to="/resume/web"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-6 py-4 text-xs font-medium uppercase tracking-[0.2em] text-white/70 hover:text-white hover:bg-white/10 transition"
+          >
+            Resume — Web
+          </Link>
+        </div>
+      )}
     </div>
   );
 });
